@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面跳转中...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            padding: 20px;
+        }
+        
+        .redirect-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .logo {
+            margin-bottom: 20px;
+        }
+        
+        .logo svg {
+            width: 80px;
+            height: 80px;
+            fill: #fff;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .countdown-item {
+            margin: 0 10px;
+            text-align: center;
+        }
+        
+        .countdown-value {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .countdown-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: #fff;
+            color: #2575fc;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #fff;
+            border-radius: 3px;
+            transition: width 1s linear;
+        }
+        
+        .destination {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 480px) {
+            .redirect-container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .countdown-value {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <div class="logo">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 5.5V7H9V5.5L3 7V9L9 10.5V12.5L3 14V16L9 17.5V22H15V17.5L21 16V14L15 12.5V10.5L21 9Z"/>
+            </svg>
+        </div>
+        
+        <h1>页面跳转中</h1>
+        <p>您将在 <span id="countdown-display">10</span> 秒后自动跳转到目标页面</p>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="countdown-value" id="seconds">10</div>
+                <div class="countdown-label">秒</div>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <a href="https://example.com" class="btn btn-primary" id="jump-now">立即跳转</a>
+            <button class="btn btn-secondary" id="cancel-redirect">取消跳转</button>
+        </div>
+        
+        <div class="destination">
+            目标页面: <span id="destination-url">https://example.com</span>
+        </div>
+    </div>
+
+    <script>
+        // 配置参数
+        const config = {
+            redirectUrl: "https://www.123pan.cn/s/xNhKVv-C038h", // 跳转目标URL
+            countdownTime: 10, // 倒计时时间（秒）
+            progressBar: document.getElementById('progress-bar'),
+            countdownDisplay: document.getElementById('countdown-display'),
+            secondsDisplay: document.getElementById('seconds'),
+            jumpNowBtn: document.getElementById('jump-now'),
+            cancelBtn: document.getElementById('cancel-redirect'),
+            destinationUrl: document.getElementById('destination-url')
+        };
+        
+        // 设置目标URL
+        config.jumpNowBtn.href = config.redirectUrl;
+        config.destinationUrl.textContent = config.redirectUrl;
+        
+        let countdown = config.countdownTime;
+        let countdownInterval;
+        
+        // 更新倒计时显示
+        function updateCountdown() {
+            config.countdownDisplay.textContent = countdown;
+            config.secondsDisplay.textContent = countdown;
+            
+            // 更新进度条
+            const progress = 100 - (countdown / config.countdownTime * 100);
+            config.progressBar.style.width = `${progress}%`;
+            
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                redirect();
+            } else {
+                countdown--;
+            }
+        }
+        
+        // 执行跳转
+        function redirect() {
+            window.location.href = config.redirectUrl;
+        }
+        
+        // 开始倒计时
+        function startCountdown() {
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+        
+        // 取消跳转
+        function cancelRedirect() {
+            clearInterval(countdownInterval);
+            config.countdownDisplay.textContent = "已取消";
+            config.secondsDisplay.textContent = "已取消";
+            config.progressBar.style.width = "0%";
+            config.progressBar.style.backgroundColor = "#ff6b6b";
+        }
+        
+        // 事件监听
+        config.cancelBtn.addEventListener('click', cancelRedirect);
+        
+        // 初始化
+        startCountdown();
+    </script>
+</body>
+</html>
